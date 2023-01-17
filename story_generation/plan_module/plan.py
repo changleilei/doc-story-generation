@@ -96,7 +96,7 @@ def generate_initial_entity_strings(premise, setting, instruct_model, min_entiti
         character_strings[selected_name.strip()] = Entity(selected_name.strip(), description=selected_name.strip() + ' is' + description, is_character=True)
         used_name_words.update(selected_name.strip().split())
     infer_attributes_string = premise.strip() + '\n\n' + setting.strip() + '\n\n' + '\n\n'.join([ent.description for ent in character_strings.values()])
-    return create_character_summary(character_strings), character_strings, infer_attributes_string
+    return create_character_summary(character_strings), character_strings, infer_attributes_string  # 组织成字符串形式，角色数据，
 
 
 def generate_outline(args, premise, setting, characters, character_strings, infer_attributes_string, instruct_model, max_tokens, min_sections=2, max_sections=5, outline_levels=1, model_string='text-davinci-002', previous_outline=None):
@@ -209,6 +209,9 @@ def load_plan_info(plan_file):
 
 
 def generate_plan_info(args, instruct_model, include_outline=True, model_string='text-davinci-002'):
+    """
+    instruct_model: gpt3
+    """
     while True:
         try:
             if args.premise is not None:
@@ -265,6 +268,7 @@ def generate_plan_info(args, instruct_model, include_outline=True, model_string=
                         outline = save_info['outline']
                     outline_max_tokens = 128
                     outline, (characters, character_strings, infer_attributes_string) = generate_outline(args, premise, setting, characters, character_strings, infer_attributes_string, instruct_model, outline_max_tokens, outline_levels=args.outline_levels, previous_outline=outline)
+                    # 获取outline
 
                     logging.log(25, 'FINAL PLAN')
                     logging.log(25, 'Premise: ' + premise)

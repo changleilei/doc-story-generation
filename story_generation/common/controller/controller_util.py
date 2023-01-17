@@ -1,12 +1,12 @@
 from story_generation.common.controller.models.fudge_controller import FudgeController
 from story_generation.common.controller.models.longformer_classifier import LongformerClassifier
 
-CONTROLLER_CHOICES=['fudge_controller', 'longformer_classifier', 'none']
-LOADER_CHOICES=['coherence', 'fine_coherence', 'alignment', 'order', 'none']
+CONTROLLER_CHOICES=['fudge_controller', 'longformer_classifier', 'none']  # fudge 模糊控制器，长度龙志气
+LOADER_CHOICES=['coherence', 'fine_coherence', 'alignment', 'order', 'none'] # 一致性，细一致性， 对齐控制， 排序控制
 
 def add_controller_args(parser):
     parser.add_argument('--controller', type=str, nargs='*', choices=CONTROLLER_CHOICES, help='model architecture. in main.py, first for relevance, second for coherence, third for OPT fudge control, fourth for outline ordering')
-    parser.add_argument('--controller-model-string', type=str,  nargs='*', help='model string')
+    parser.add_argument('--controller-model-string', type=str,  nargs='*', help='model string')  # gpt2 or opt
     parser.add_argument('--loader', type=str, nargs='*', choices=LOADER_CHOICES, help='loader for controller')
     parser.add_argument('--controller-save-dir', type=str, default=None, help='directory to save controller')
     parser.add_argument('--controller-load-dir', type=str, nargs='*', default=[''], help='directory to load controller')

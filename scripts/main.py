@@ -74,9 +74,8 @@ if __name__=='__main__':
     os.makedirs(os.path.dirname(args.log_file), exist_ok=True)
     logging.getLogger().handlers = []
     logging.basicConfig(format='%(message)s', filename=args.log_file, level=args.log_level)
-
     gpt3_model = GPT3Summarizer(args) # naming is a relic of some old preliminary experiments; it's just a gpt3 interface
-    controllers = [load_controller(args, i) for i in range(len(args.controller))]
+    controllers = [load_controller(args, i) for i in range(len(args.controller))]  # longformer_classifier
     assert len(controllers) >= 3 # in order: relevance, coherence, fudge, outline order (outline order only needed if you don't specify a load_outline_file)
     
     # load or create new plan/outline
@@ -121,7 +120,7 @@ if __name__=='__main__':
         nodes_at_depth = [node for node in outline.depth_first_traverse() if node.depth() == args.generation_outline_levels]
         for node in nodes_at_depth:
             node.children = []
-        for leaf in outline.leaves(): # we have new leaves so we should recompute the scenes at leaves
+        for leaf in outline.leaves(): # we have new leaves, so we should recompute the scenes at leaves
             leaf.select_scene(gpt3_model, args.plan_model_string, infer_attributes_string) # since in practice scenes are only detected at leaves, reselect scenes at the new leaves
     
     # initialize entities and story objects

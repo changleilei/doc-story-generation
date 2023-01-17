@@ -21,7 +21,7 @@ class LongformerClassifier(AbstractController):
         self.args = args
         self.trained = False
         self.loader_type = self.args.loader[self.index]
-        self.model = AutoModelForSequenceClassification.from_pretrained(self.model_string, num_labels=2).to(self.device)
+        self.model = AutoModelForSequenceClassification.from_pretrained(self.model_string, num_labels=2).to(self.device)  # roberta large
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_string)
         self.optimizer = AdamW(self.model.parameters(), lr=args.controller_lr)
     

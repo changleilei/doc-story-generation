@@ -49,7 +49,7 @@ class GPT3Summarizer(AbstractSummarizer):
             num_fails = 0
             while retry:
                 try:
-                    context_length = len(self.tokenizer.encode(prompt))
+                    context_length = len(self.tokenizer.encode(prompt))  # gpt2 tokenizer
                     if context_length > self.args.max_context_length:
                         logging.warning('context length' + ' ' + str(context_length) + ' ' + 'exceeded artificial context length limit' + ' ' + str(self.args.max_context_length))
                         time.sleep(5) # similar interface to gpt3 query failing and retrying
@@ -62,6 +62,7 @@ class GPT3Summarizer(AbstractSummarizer):
                     logging.log(21, 'PROMPT')
                     logging.log(21, prompt)
                     logging.log(21, 'MODEL STRING:' + ' ' + self.model if model_string is None else model_string)
+                    openai.api_key = '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'
                     completion = openai.Completion.create(
                         engine=engine,
                         prompt=prompt,
